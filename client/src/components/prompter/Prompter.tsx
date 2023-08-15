@@ -40,7 +40,7 @@ export default function Prompter() {
         messages: [
           {
             role: "user",
-            content: `Find me ${formData.n} songs on Spotify that are similar to the ${formData.type} "${formData.context}" and a ${settings.age} year old would especially enjoy. list songs in the following format, seperated by commas, and no other words or numbering: <SONG>::<ARTIST>`,
+            content: `Find me ${formData.n} songs on Spotify that are similar to the ${formData.type} "${formData.context}" and a ${settings.age} year old would especially enjoy. List songs in the following format, seperated by commas, and NO MATTER WHAT, no other words or numbering: <SONG>::<ARTIST>`,
           },
         ],
         temperature: settings.temperature,
