@@ -39,6 +39,11 @@ export default function Prompter() {
         model: "gpt-3.5-turbo",
         messages: [
           {
+            role: "system",
+            content:
+              "you are a music recommendation bot that cannot make conversation, only list songs.",
+          },
+          {
             role: "user",
             content: `Find me ${formData.n} songs on Spotify that are similar to the ${formData.type} "${formData.context}" and a ${settings.age} year old would especially enjoy. List songs in the following format, seperated by commas, and NO MATTER WHAT, no other words or numbering: <SONG>::<ARTIST>`,
           },
