@@ -8,24 +8,23 @@ import Search from "./pages/Search";
 import Wrapped from "./pages/Wrapped";
 import About from "./pages/About";
 import Settings from "./pages/Settings";
-import Connect from "./pages/Connect";
-import { SpotifyTokenProvider } from "./context/SpotifyTokenContext";
+import Connect from "./pages/SpotifyConnection";
+import Login from "./pages/Login";
 
 function App() {
   return (
     <>
       <SettingsProvider>
-        <SpotifyTokenProvider>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/wrapped" element={<Wrapped />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/connect" element={<Connect />} />
-          </Routes>
-        </SpotifyTokenProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/wrapped" element={<Wrapped />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/connect" element={<Connect />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
       </SettingsProvider>
     </>
   );

@@ -8,6 +8,7 @@ export default function Navbar() {
       <Link to="/search">Search</Link>
       <Link to="/wrapped">Wrapped</Link>
       <Link to="/about">About</Link>
+      <Link to="/login">Login</Link>
       <Link to="/settings">Settings</Link>
     </nav>
   );
