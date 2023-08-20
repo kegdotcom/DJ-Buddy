@@ -1,50 +1,69 @@
-import React from "react";
+import React, { useState } from "react";
 import Prompter from "../components/prompter/Prompter";
-import QueryString from "querystring";
-import { useUpdateSpotifyToken } from "../context/SpotifyTokenContext";
+import { Link } from "react-router-dom";
+
+interface SimplifiedPlaylistObject {
+  collaborative: boolean;
+  description: string;
+  id: string;
+  name: string;
+  public: boolean;
+}
+
+interface SavedTrackObject {
+  track: {
+    explicit: boolean;
+    id: string;
+    name: string;
+    popularity: number;
+    uri: string;
+  };
+}
 
 export default function Search() {
-  const updateSpotifyToken = useUpdateSpotifyToken();
+  const [data, setData] = useState<string[]>();
 
-  const clientID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-  const clientSecret = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
-  const redirectURI = "http://localhost:3000/connect";
-  const authScopes =
-    "user-read-currently-playing playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-public user-top-read user-library-modify user-library-read";
+  const spotifyAccessToken = sessionStorage.getItem("spotify-access-token");
 
-  const generateRandomString = function (length: number): string {
-    var text = "";
-    var possible =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  async function getPlaylists() {
+    const response = await fetch("https://api.spotify.com/v1/me/playlists", {
+      headers: {
+        Authorization: `Bearer ${spotifyAccessToken}`,
+      },
+    });
+    const playlistsJSON = await response.json();
+    let playlists = playlistsJSON.items;
+    playlists = playlists.map((playlist: SimplifiedPlaylistObject) => {
+      return playlist.name;
+    });
+    setData(playlists);
+  }
 
-    for (var i = 0; i < length; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
-  };
-
-  const state = generateRandomString(16);
-
-  const authParams = QueryString.stringify({
-    client_id: clientID,
-    response_type: "code",
-    redirect_uri: redirectURI,
-    scope: authScopes,
-    state: state,
-  });
-
-  // this link will send the user to spotify to authorize the application, and then back to the localhost:3000/connect page
-  // upon arrival, the browser will have an authorization code in the URL bar that we can exchange for an Access Token
-  const authorizationLink = `https://accounts.spotify.com/authorize?${authParams}`;
+  async function getSavedTracks() {
+    const response = await fetch("https://api.spotify.com/v1/me/tracks", {
+      headers: {
+        Authorization: `Bearer ${spotifyAccessToken}`,
+      },
+    });
+    const tracksJSON = await response.json();
+    let tracks = tracksJSON.items;
+    tracks = tracks.map((savedTrack: SavedTrackObject) => {
+      return savedTrack.track.name;
+    });
+    setData(tracks);
+  }
 
   return (
     <>
-      <h1>
-        Search for Songs |{" "}
-        <span style={{ backgroundColor: "#009911", color: "#222222" }}>
-          <a href={authorizationLink}>Connect to Spotify</a>
-        </span>
-      </h1>
+      <h1>Search for Songs | </h1>
+      {!spotifyAccessToken && <Link to="/login">Connect To Spotify!</Link>}
+      <button onClick={getPlaylists}>Get Playlists</button>
+      <button onClick={getSavedTracks}>Get Saved Tracks</button>
+      <ol>
+        {data?.map((item) => {
+          return <li>{item}</li>;
+        })}
+      </ol>
       <Prompter />
     </>
   );
