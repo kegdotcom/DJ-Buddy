@@ -1,24 +1,7 @@
 import React, { useState } from "react";
 import Prompter from "../components/prompter/Prompter";
 import { Link } from "react-router-dom";
-
-interface SimplifiedPlaylistObject {
-  collaborative: boolean;
-  description: string;
-  id: string;
-  name: string;
-  public: boolean;
-}
-
-interface SavedTrackObject {
-  track: {
-    explicit: boolean;
-    id: string;
-    name: string;
-    popularity: number;
-    uri: string;
-  };
-}
+import { SearchResult, Playlist, Song, SavedSong } from "../SpotifyInterfaces";
 
 export default function Search() {
   const [data, setData] = useState<string[]>();
@@ -33,7 +16,7 @@ export default function Search() {
     });
     const playlistsJSON = await response.json();
     let playlists = playlistsJSON.items;
-    playlists = playlists.map((playlist: SimplifiedPlaylistObject) => {
+    playlists = playlists.map((playlist: Playlist) => {
       return playlist.name;
     });
     setData(playlists);
@@ -47,7 +30,7 @@ export default function Search() {
     });
     const tracksJSON = await response.json();
     let tracks = tracksJSON.items;
-    tracks = tracks.map((savedTrack: SavedTrackObject) => {
+    tracks = tracks.map((savedTrack: SavedSong) => {
       return savedTrack.track.name;
     });
     setData(tracks);
