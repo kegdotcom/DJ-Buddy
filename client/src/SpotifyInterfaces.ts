@@ -1,9 +1,32 @@
 export interface Playlist {
-  collaborative: boolean;
-  description: string;
-  id: string;
-  name: string;
-  public: boolean;
+  collaborative: boolean; // whether the playlist is collaborative
+  description: string; // the playlist's description
+  external_urls: {
+    // list of known external URLs for the playlist
+    spotify: string; // the Spotify URL for the playlist
+  };
+  href: string; // a link to the Web API endpoint returning the full details of the playlist
+  id: string; // the Spotify ID of the playlist
+  images: Image[]; // the images for the playlist - length may be 0-3 - sorted by size in descending order
+  name: string; // the name of the playlist
+  public: boolean; // whether the playlist is public
+  tracks: {
+    // information on the songs on the playlist
+    href: string; // link to the Web API endpoint with full details of the playlist's songs
+    total: number; // the number of songs on the playlist
+  };
+  type: string; // the object type - always "playlist"
+  uri: string; // the Spotify URI for the playlist
+}
+
+export interface PlaylistSearchResult {
+  href: string; // a link to the Web API endpoint returning the full result of the request
+  limit: number; // the maximum number of items returned
+  next: string | null; // URL to the next page of items (null if none)
+  previous: string | null; // URL to the previous page of items (null if none)
+  offset: number; // the offset of the items returned
+  total: number; // the total number of items availale to return
+  items: Playlist[]; // the playlists returned
 }
 
 export interface Artist {
@@ -29,8 +52,8 @@ export interface SearchResult {
   limit: number; // the max number of items in the response
   offset: number; // the offset of the items returned
   total: number; // the total number of items available to return
-  next: string; // URL to the next page of items (null if none)
-  previous: string; // URL to the previous page of items (null if none)
+  next: string | null; // URL to the next page of items (null if none)
+  previous: string | null; // URL to the previous page of items (null if none)
   items: Song[]; // list of Song objects returned
 }
 
@@ -91,6 +114,11 @@ export interface Song {
   type: string; // the type of object - always "track"
   uri: string; // the Spotify URI of the song
   is_local: boolean; // whether the song is from local files
+}
+
+export interface SearchSong {
+  name: string;
+  artist: string;
 }
 
 export interface SavedSong {

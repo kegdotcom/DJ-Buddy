@@ -1,0 +1,27 @@
+.playlistNode {
+  height: 250px;
+  width: 50%;
+  margin: auto;
+  border: 2px solid rgba(0, 0, 0, 0.9);
+}
+
+ul.playlistList {
+  margin: 0;
+  height: inherit;
+  overflow-y: auto;
+  list-style-type: none;
+  padding: 0;
+}
+
+.playlist {
+  border: 1px solid rgba(128, 128, 128, 0.5);
+  display: flex;
+}
+
+.playlistImage {
+  float: left;
+}
+
+.playlistPrivacy {
+  float: right;
+}

@@ -1,53 +1,117 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import Prompter from "../components/prompter/Prompter";
 import { Link } from "react-router-dom";
-import { SearchResult, Playlist, Song, SavedSong } from "../SpotifyInterfaces";
+import PlaylistNode from "../components/playlist/PlaylistNode";
+import {
+  SearchResult,
+  Song,
+  PlaylistSearchResult,
+  Playlist,
+  SavedSong,
+  SearchSong,
+} from "../SpotifyInterfaces";
 
 export default function Search() {
-  const [data, setData] = useState<string[]>();
-
   const spotifyAccessToken = sessionStorage.getItem("spotify-access-token");
+  const [data, setData] = useState<ReactNode>();
+  const [songURIdata, setSongURIdata] = useState<string>();
 
   async function getPlaylists() {
-    const response = await fetch("https://api.spotify.com/v1/me/playlists", {
-      headers: {
-        Authorization: `Bearer ${spotifyAccessToken}`,
-      },
-    });
-    const playlistsJSON = await response.json();
-    let playlists = playlistsJSON.items;
-    playlists = playlists.map((playlist: Playlist) => {
-      return playlist.name;
-    });
-    setData(playlists);
+    let playlists: Playlist[] = [];
+    let nextPageURL =
+      "https://api.spotify.com/v1/me/playlists?" +
+      new URLSearchParams({ limit: "50" });
+    let hasNext = true;
+
+    while (hasNext) {
+      const response = await fetch(nextPageURL, {
+        headers: {
+          Authorization: `Bearer ${spotifyAccessToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        console.error(
+          `Error getting paginated playlists: ${response.statusText}`
+        );
+      }
+
+      const data: PlaylistSearchResult = await response.json();
+      playlists = playlists.concat(data.items);
+      if (data.next != null) {
+        nextPageURL = data.next;
+      } else {
+        hasNext = false;
+      }
+    }
+
+    setData(<PlaylistNode playlists={playlists} />);
   }
 
-  async function getSavedTracks() {
-    const response = await fetch("https://api.spotify.com/v1/me/tracks", {
-      headers: {
-        Authorization: `Bearer ${spotifyAccessToken}`,
-      },
+  async function getSongURIs(openAIResponse: string) {
+    const responseSongs: string[] = openAIResponse.trim().split(",,");
+    const filteredSongs = responseSongs.filter((song) => song.includes("::"));
+    const parsedSongs: SearchSong[] = filteredSongs.map((song) => {
+      const songParts = song.split("::");
+      const parsedSong: SearchSong = {
+        name: songParts[0],
+        artist: songParts[1],
+      };
+      return parsedSong;
     });
-    const tracksJSON = await response.json();
-    let tracks = tracksJSON.items;
-    tracks = tracks.map((savedTrack: SavedSong) => {
-      return savedTrack.track.name;
+
+    let songs: Song[] = [];
+    for (let i = 0; i < parsedSongs.length; i++) {
+      const currSong: SearchSong = parsedSongs[i];
+      const response = await fetch(
+        "https://api.spotify.com/v1/search?" +
+          new URLSearchParams({
+            q: encodeURIComponent(
+              `track:${currSong.name} artist:${currSong.artist}`
+            ),
+            type: "track",
+            limit: "1",
+          }),
+        {
+          headers: {
+            Authorization: `Bearer ${spotifyAccessToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        console.error(`Error fetching spotify song: ${response.statusText}`);
+        continue;
+      }
+
+      const songJSON = await response.json();
+      const searchResult: SearchResult = songJSON.tracks;
+      const foundSong: Song = searchResult.items[0];
+      songs.push(foundSong);
+    }
+
+    songs.forEach((song) => {
+      window.alert(song.name);
     });
-    setData(tracks);
   }
 
   return (
     <>
-      <h1>Search for Songs | </h1>
+      <h1>Search for Songs |</h1>
       {!spotifyAccessToken && <Link to="/login">Connect To Spotify!</Link>}
-      <button onClick={getPlaylists}>Get Playlists</button>
-      <button onClick={getSavedTracks}>Get Saved Tracks</button>
-      <ol>
-        {data?.map((item) => {
-          return <li>{item}</li>;
-        })}
-      </ol>
       <Prompter />
+      <button onClick={getPlaylists}>Get Playlists</button>
+      <button
+        onClick={(e) =>
+          getSongURIs(
+            "Happy::Pharrell Williams,,Can't Stop the Feeling!::Justin Timberlake,,Uptown Funk::Mark Ronson ft. Bruno Mars,,I Gotta Feeling::The Black Eyed Peas,,Shut Up and Dance::Walk The Moon"
+          )
+        }
+      >
+        Get Song URIs
+      </button>
+      {data}
+      {songURIdata}
     </>
   );
 }
