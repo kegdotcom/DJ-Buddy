@@ -116,11 +116,6 @@ export interface Song {
   is_local: boolean; // whether the song is from local files
 }
 
-export interface SearchSong {
-  name: string;
-  artist: string;
-}
-
 export interface SavedSong {
   added_at: string; // {date-time} representation of when the song was added to saved
   track: Song; // the Song object of the saved song

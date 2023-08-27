@@ -4,7 +4,6 @@ import {
   Playlist,
   PlaylistSearchResult,
   SearchResult,
-  SearchSong,
   Song,
 } from "../../SpotifyInterfaces";
 
@@ -22,14 +21,14 @@ export default function Prompter() {
     context: "",
   });
 
-  const [gptRes, setGptRes] = useState<string>("");
+  let gptRes: string = "";
+  let songURIs: string[] = [];
+  let playlistID: string = "";
 
   const spotifyAccessToken = sessionStorage.getItem("spotify-access-token");
-  const [songURIs, setSongURIs] = useState<string[]>([]);
-  const [playlistID, setPlaylistID] = useState<string>();
 
   async function getSongURIs(openAIResponse: string) {
-    window.alert("getting song URIs");
+    window.alert("getting song URIs from " + openAIResponse);
     const responseSongs: string[] = openAIResponse.trim().split(",,");
     const filteredSongs = responseSongs.filter((song) => song.includes("::"));
     const parsedSongs: SearchSong[] = filteredSongs.map((song) => {
@@ -75,7 +74,7 @@ export default function Prompter() {
       return song.uri;
     });
 
-    setSongURIs(songURIList);
+    songURIs = songURIList;
   }
 
   async function createNewPlaylist(name: string, desc: string) {
@@ -106,7 +105,7 @@ export default function Prompter() {
     );
     const creationData = await creationResponse.json();
     const newPlaylistID = creationData.id;
-    setPlaylistID(newPlaylistID);
+    playlistID = newPlaylistID;
   }
 
   async function addSongsToPlaylist(uris: string[]) {
@@ -121,16 +120,6 @@ export default function Prompter() {
         uris: uris,
       }),
     });
-  }
-
-  async function makePlaylist() {
-    console.log("making playlist");
-    await getSongURIs(gptRes);
-    await createNewPlaylist(
-      playlistFormData.name,
-      playlistFormData.description
-    );
-    await addSongsToPlaylist(songURIs);
   }
 
   function handleInputUpdate(propName: string) {
@@ -174,7 +163,7 @@ export default function Prompter() {
         const completionTokenPrice = data.usage.completion_tokens * 0.000002;
         const totalCost = promptTokenPrice + completionTokenPrice;
 
-        setGptRes(message);
+        gptRes = message;
       });
 
     setFormData({ n: "1", type: "song", context: "" });
