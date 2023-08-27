@@ -68,12 +68,15 @@ export default function Prompter() {
       const songJSON = await response.json();
       const searchResult: SearchResult = songJSON.tracks;
       const foundSong: Song = searchResult.items[0];
+      window.alert(foundSong.name);
       songs.push(foundSong);
     }
 
-    const songURIList = songs.map((song) => {
-      return song.uri;
-    });
+    let songURIList: string[] = [];
+    for (let i = 0; i < songs.length; i++) {
+      const uri = songs[i].uri;
+      songURIList.push(uri);
+    }
 
     setSongURIs(songURIList);
   }
@@ -111,6 +114,7 @@ export default function Prompter() {
 
   async function addSongsToPlaylist(uris: string[]) {
     window.alert("adding songs to playlist");
+    window.alert(uris.length);
     await fetch(`https://api.spotify.com/v1/playlists/${playlistID}/tracks`, {
       method: "POST",
       headers: {
@@ -123,7 +127,8 @@ export default function Prompter() {
     });
   }
 
-  async function makePlaylist() {
+  async function makePlaylist(e: FormEvent) {
+    e.preventDefault();
     console.log("making playlist");
     await getSongURIs(gptRes);
     await createNewPlaylist(
