@@ -1,5 +1,12 @@
 import React, { useState, FormEvent } from "react";
 import useSettings from "../../context/SettingsContext";
+import {
+  Playlist,
+  PlaylistSearchResult,
+  SearchResult,
+  SearchSong,
+  Song,
+} from "../../SpotifyInterfaces";
 
 export default function Prompter() {
   interface FormData {
@@ -15,7 +22,116 @@ export default function Prompter() {
     context: "",
   });
 
-  const [displayText, setDisplayText] = useState<string>("");
+  const [gptRes, setGptRes] = useState<string>("");
+
+  const spotifyAccessToken = sessionStorage.getItem("spotify-access-token");
+  const [songURIs, setSongURIs] = useState<string[]>([]);
+  const [playlistID, setPlaylistID] = useState<string>();
+
+  async function getSongURIs(openAIResponse: string) {
+    window.alert("getting song URIs");
+    const responseSongs: string[] = openAIResponse.trim().split(",,");
+    const filteredSongs = responseSongs.filter((song) => song.includes("::"));
+    const parsedSongs: SearchSong[] = filteredSongs.map((song) => {
+      const songParts = song.split("::");
+      const parsedSong: SearchSong = {
+        name: songParts[0],
+        artist: songParts[1],
+      };
+      return parsedSong;
+    });
+
+    let songs: Song[] = [];
+    for (let i = 0; i < parsedSongs.length; i++) {
+      const currSong: SearchSong = parsedSongs[i];
+      const response = await fetch(
+        "https://api.spotify.com/v1/search?" +
+          new URLSearchParams({
+            q: encodeURIComponent(
+              `track:${currSong.name} artist:${currSong.artist}`
+            ),
+            type: "track",
+            limit: "1",
+          }),
+        {
+          headers: {
+            Authorization: `Bearer ${spotifyAccessToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        console.error(`Error fetching spotify song: ${response.statusText}`);
+        continue;
+      }
+
+      const songJSON = await response.json();
+      const searchResult: SearchResult = songJSON.tracks;
+      const foundSong: Song = searchResult.items[0];
+      songs.push(foundSong);
+    }
+
+    const songURIList = songs.map((song) => {
+      return song.uri;
+    });
+
+    setSongURIs(songURIList);
+  }
+
+  async function createNewPlaylist(name: string, desc: string) {
+    window.alert("Creating playlist");
+    const userResponse = await fetch("https://api.spotify.com/v1/me", {
+      headers: {
+        Authorization: `Bearer ${spotifyAccessToken}`,
+      },
+    });
+    const userData = await userResponse.json();
+    const userID = userData.id;
+
+    const creationResponse = await fetch(
+      `https://api.spotify.com/v1/users/${userID}/playlists`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${spotifyAccessToken}`,
+        },
+        body: JSON.stringify({
+          name: name,
+          public: true,
+          collaborative: false,
+          description: desc,
+        }),
+      }
+    );
+    const creationData = await creationResponse.json();
+    const newPlaylistID = creationData.id;
+    setPlaylistID(newPlaylistID);
+  }
+
+  async function addSongsToPlaylist(uris: string[]) {
+    window.alert("adding songs to playlist");
+    await fetch(`https://api.spotify.com/v1/playlists/${playlistID}/tracks`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${spotifyAccessToken}`,
+      },
+      body: JSON.stringify({
+        uris: uris,
+      }),
+    });
+  }
+
+  async function makePlaylist() {
+    console.log("making playlist");
+    await getSongURIs(gptRes);
+    await createNewPlaylist(
+      playlistFormData.name,
+      playlistFormData.description
+    );
+    await addSongsToPlaylist(songURIs);
+  }
 
   function handleInputUpdate(propName: string) {
     return (ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -45,7 +161,7 @@ export default function Prompter() {
           },
           {
             role: "user",
-            content: `Find me ${formData.n} songs on Spotify that are similar to the ${formData.type} "${formData.context}" and a ${settings.age} year old would especially enjoy. List songs in the following format, seperated by ",,", and NO MATTER WHAT, no other words or numbering: <SONG>::<ARTIST>`,
+            content: `Find me ${formData.n} songs on Spotify that are similar to the ${formData.type} "${formData.context}" and a ${settings.age} year old would especially enjoy. List songs in the following format, seperated by ",,", and NO MATTER WHAT, NO OTHER WORDS, CONTEXT, NUMBERING, OR COMMUNICATION: <SONG>::<ARTIST>`,
           },
         ],
         temperature: settings.temperature,
@@ -58,12 +174,28 @@ export default function Prompter() {
         const completionTokenPrice = data.usage.completion_tokens * 0.000002;
         const totalCost = promptTokenPrice + completionTokenPrice;
 
-        setDisplayText(
-          `${message}\n\nPrompt Price: ${promptTokenPrice}\nCompletion Price: ${completionTokenPrice}\nTotal Price: ${totalCost}`
-        );
+        setGptRes(message);
       });
 
     setFormData({ n: "1", type: "song", context: "" });
+  }
+
+  interface PlaylistFormData {
+    name: string;
+    description: string;
+  }
+  const initialPlaylistFormData: PlaylistFormData = {
+    name: "New Playlist",
+    description: "OpenAI-generated playlist",
+  };
+  const [playlistFormData, setPlaylistFormData] = useState<PlaylistFormData>(
+    initialPlaylistFormData
+  );
+
+  function handlePlaylistInputUpdate(propName: string) {
+    return (ev: React.ChangeEvent<HTMLInputElement>) => {
+      setPlaylistFormData({ ...playlistFormData, [propName]: ev.target.value });
+    };
   }
 
   return (
@@ -94,8 +226,6 @@ export default function Prompter() {
           >
             <option value="song">Song</option>
             <option value="artist">Artist</option>
-            <option value="album">Album</option>
-            <option value="genre">Genre</option>
             <option value="emotion">Emotion</option>
           </select>
           :
@@ -114,7 +244,22 @@ export default function Prompter() {
           />
         </form>
       </div>
-      {displayText}
+      <div>
+        {gptRes}
+        <form onSubmit={makePlaylist}>
+          <input
+            type="text"
+            placeholder="Playlist Name"
+            onChange={handlePlaylistInputUpdate("name")}
+          />
+          <input
+            type="text"
+            placeholder="Playlist Description"
+            onChange={handlePlaylistInputUpdate("description")}
+          />
+          <input type="submit" value="Create Playlist" />
+        </form>
+      </div>
     </>
   );
 }
