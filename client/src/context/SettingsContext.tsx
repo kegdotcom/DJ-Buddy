@@ -3,10 +3,16 @@ import React, { useState, createContext, useContext, ReactNode } from "react";
 // define settings interface and a default settings object
 export interface Settings {
   age: number;
+  gender: string;
   temperature: number;
   darkTheme: boolean;
 }
-export const defaultSettings = { age: 18, temperature: 0.75, darkTheme: false };
+export const defaultSettings = {
+  age: 18,
+  gender: "male",
+  temperature: 0.75,
+  darkTheme: false,
+};
 
 // create contexts for the settings variable and the updateSettings function
 const SettingsContext = createContext<Settings>(defaultSettings);
