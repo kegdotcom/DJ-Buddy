@@ -39,6 +39,7 @@ export interface Artist {
   name: string; // the name of the artist
   type: string; // the object type - always "artist"
   uri: string; // the Spotify URI for the artist
+  images?: Image[];
 }
 
 export interface Image {
