@@ -39,6 +39,7 @@ export interface Artist {
   name: string; // the name of the artist
   type: string; // the object type - always "artist"
   uri: string; // the Spotify URI for the artist
+  images?: Image[];
 }
 
 export interface Image {
@@ -114,11 +115,6 @@ export interface Song {
   type: string; // the type of object - always "track"
   uri: string; // the Spotify URI of the song
   is_local: boolean; // whether the song is from local files
-}
-
-export interface SearchSong {
-  name: string;
-  artist: string;
 }
 
 export interface SavedSong {

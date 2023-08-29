@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from "react";
-import Prompter from "../components/prompter/Prompter";
+import Generator from "../components/generator/Generator";
 import { Link } from "react-router-dom";
 import PlaylistNode from "../components/playlist/PlaylistNode";
 import {
@@ -8,7 +8,6 @@ import {
   PlaylistSearchResult,
   Playlist,
   SavedSong,
-  SearchSong,
 } from "../SpotifyInterfaces";
 
 export default function Search() {
@@ -16,9 +15,9 @@ export default function Search() {
 
   return (
     <>
-      <h1>Search for Songs |</h1>
+      <h1>Search for Songs</h1>
       {!spotifyAccessToken && <Link to="/login">Connect To Spotify!</Link>}
-      <Prompter />
+      <Generator />
     </>
   );
 }

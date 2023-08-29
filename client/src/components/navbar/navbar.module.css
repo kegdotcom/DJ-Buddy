@@ -1,0 +1,12 @@
+.navbar {
+  margin: 0;
+  padding: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.navbarLink {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 2px;
+  margin-right: 10px;
+  text-decoration: none;
+}

@@ -1,15 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import styles from "./navbar.module.css";
 
 export default function Navbar() {
   return (
-    <nav>
-      <Link to="/">Home</Link>
-      <Link to="/search">Search</Link>
-      <Link to="/wrapped">Wrapped</Link>
-      <Link to="/about">About</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/settings">Settings</Link>
+    <nav className={styles.navbar}>
+      <span className={styles.navbarLink}>
+        <Link to="/">Home</Link>
+      </span>
+      <span className={styles.navbarLink}>
+        <Link to="/search">Search</Link>
+      </span>
+      <span className={styles.navbarLink}>
+        <Link to="/wrapped">Wrapped</Link>
+      </span>
+      <span className={styles.navbarLink}>
+        <Link to="/about">About</Link>
+      </span>
+      <span className={styles.navbarLink}>
+        <Link to="/login">Login</Link>
+      </span>
+      <span className={styles.navbarLink}>
+        <Link to="/settings">Settings</Link>
+      </span>
     </nav>
   );
 }

@@ -12,8 +12,8 @@ export default function Settings() {
     <>
       <h1>Settings</h1>
       <p>
-        current settings - Age: {settings.age} | Temperature:{" "}
-        {settings.temperature} | Theme:{" "}
+        current settings - Age: {settings.age} | Gender: {settings.gender} |
+        Temperature: {settings.temperature} | Theme:{" "}
         {settings.darkTheme === true ? "Dark" : "Light"}
       </p>
       <h3>Modify Settings:</h3>
@@ -33,6 +33,22 @@ export default function Settings() {
         defaultValue={settings.age}
         onChange={(ev) => updateSettings({ age: ev.target.valueAsNumber })}
       />
+      <label
+        className="settings settings-label"
+        key="settings-gender-label"
+        htmlFor="settings-gender-input"
+      >
+        Gender:{" "}
+      </label>
+      <select
+        className="settings settings-select"
+        key="settings-gender-select"
+        name="Gender"
+        onChange={(ev) => updateSettings({ gender: ev.target.value })}
+      >
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
       <label
         className="settings settings-label"
         key="settings-temperature-label"

@@ -36,7 +36,13 @@ export default function Login() {
   return (
     <>
       <h1>Log In to Spotify</h1>
-      <a href={authorizationLink}>Connect to Spotify</a>
+      <h3>
+        <a href={authorizationLink}>Connect to Spotify</a>
+      </h3>
+      <p>
+        Having trouble using DJ Buddy? The Spotify connection only lasts for one
+        hour, so maybe try to reconnect!
+      </p>
     </>
   );
 }
