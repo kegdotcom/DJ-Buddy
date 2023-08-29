@@ -1,0 +1,9 @@
+.songListGroup {
+  height: 500px;
+  width: 90%;
+  overflow-y: auto;
+}
+
+.songList {
+  list-style-type: none;
+}

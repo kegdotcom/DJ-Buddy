@@ -1,0 +1,27 @@
+.songItem {
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.song {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.songImage {
+  float: left;
+  height: 50px;
+  width: 50px;
+}
+
+.songName {
+  font-weight: bold;
+  margin: auto;
+}
+
+.songIcon {
+  float: right;
+  margin-top: auto;
+  margin-bottom: auto;
+}
