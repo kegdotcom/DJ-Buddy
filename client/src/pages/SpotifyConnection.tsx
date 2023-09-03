@@ -12,7 +12,7 @@ export default function Connect() {
     async function getSpotifyToken() {
       const clientID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
       const clientSecret = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
-      const redirectURI = "http://localhost:3000/connect";
+      const redirectURI = "http://kegdotcom.github.io/aidj/#/connect";
 
       const url = new URL(window.location.href);
       const params = new URLSearchParams(url.search);

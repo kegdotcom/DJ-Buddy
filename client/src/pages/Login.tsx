@@ -4,7 +4,7 @@ import QueryString from "querystring";
 export default function Login() {
   const clientID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
-  const redirectURI = "http://localhost:3000/connect";
+  const redirectURI = "https://kegdotcom.github.io/aidj/#/connect";
   const authScopes =
     "user-read-currently-playing playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-public user-top-read user-library-modify user-library-read";
 
