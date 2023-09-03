@@ -1,14 +1,6 @@
-import React, { ReactNode, useState } from "react";
+import React from "react";
 import Generator from "../components/generator/Generator";
 import { Link } from "react-router-dom";
-import PlaylistNode from "../components/playlist/PlaylistNode";
-import {
-  SearchResult,
-  Song,
-  PlaylistSearchResult,
-  Playlist,
-  SavedSong,
-} from "../SpotifyInterfaces";
 
 export default function Search() {
   const spotifyAccessToken = sessionStorage.getItem("spotify-access-token");

@@ -17,7 +17,7 @@ function App() {
       <SettingsProvider>
         <Navbar />
         <Routes>
-          <Route path="/aidj" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/wrapped" element={<Wrapped />} />
           <Route path="/about" element={<About />} />
