@@ -1,7 +1,10 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+
+// import SettingsProvider to act as the context provider for our app
 import { SettingsProvider } from "./context/SettingsContext";
 
+// import the navigation bar and all pages that will be routed to
 import Navbar from "./components/navbar/Navbar";
 import Home from "./pages/Home";
 import Search from "./pages/Search";

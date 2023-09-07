@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styles from "./navbar.module.css";
 
 export default function Navbar() {
+  // navigation element containing React Router Links to the different pages of this application
   return (
     <nav className={styles.navbar}>
       <span className={styles.navbarLink}>

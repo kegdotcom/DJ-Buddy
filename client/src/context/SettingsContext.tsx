@@ -1,6 +1,13 @@
 import React, { useState, createContext, useContext, ReactNode } from "react";
 
-// define settings interface and a default settings object
+/**
+ * interface that defines the user's settings/preferences
+ *
+ * @member {number} age - the age of the user
+ * @member {string} gender - the gender of the user
+ * @member {number} temperature - the variability of the OpenAI response
+ * @member {boolean} darkTheme - whether or not the user has selected the dark theme
+ */
 export interface Settings {
   age: number;
   gender: string;
@@ -43,6 +50,7 @@ export function SettingsProvider({ children }: SPProps) {
     });
   }
 
+  // return an element that can be wrapped around the application for the context provider and the updater context provider
   return (
     <SettingsContext.Provider value={settings}>
       <UpdateSettingsContext.Provider value={updateSettings}>
