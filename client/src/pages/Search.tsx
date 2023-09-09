@@ -7,7 +7,7 @@ export default function Search() {
 
   return (
     <>
-      <h1>Search for Songs</h1>
+      <h1>Create A Playlist</h1>
       {!spotifyAccessToken && <Link to="/login">Connect To Spotify!</Link>}
       <Generator />
     </>

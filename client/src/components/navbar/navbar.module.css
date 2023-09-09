@@ -1,12 +1,21 @@
 .navbar {
-  margin: 0;
-  padding: 0;
-  background-color: rgba(0, 0, 0, 0.1);
+  margin: -8px;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #031d44;
 }
 
-.navbarLink {
-  background-color: rgba(0, 0, 0, 0.2);
-  padding: 2px;
+.linkBox {
+  background-color: #8affc1;
+  padding: 6px;
+  margin-left: 10px;
   margin-right: 10px;
+  border-radius: 5px;
+}
+
+.link {
   text-decoration: none;
+  color: #031d44;
 }

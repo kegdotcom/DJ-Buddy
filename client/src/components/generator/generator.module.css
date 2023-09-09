@@ -1,7 +1,14 @@
 .songListGroup {
-  height: 500px;
+  height: 400px;
   width: 90%;
   overflow-y: auto;
+}
+
+.genInput {
+  background-color: #031d44;
+  display: inline-block;
+  color: #72788d;
+  border-radius: 5px;
 }
 
 .songList {

@@ -65,13 +65,24 @@ export default function Wrapped() {
     setArtistList(topArtists);
   }
 
+  const buttonStyle = {
+    backgroundColor: "#031d44",
+    display: "inline-block",
+    color: "#72788d",
+    borderRadius: "5px",
+  };
+
   return (
     <>
       <h1>Wrapped</h1>
       {!spotifyToken && <Link to="/login">Connect To Spotify!</Link>}
       <h3>Find your top songs or artists from the last 6 months!</h3>
-      <button onClick={getTopSongs}>Show my top songs!</button>
-      <button onClick={getTopArtists}>Show my top artists!</button>
+      <button style={buttonStyle} onClick={getTopSongs}>
+        Show my top songs!
+      </button>
+      <button style={buttonStyle} onClick={getTopArtists}>
+        Show my top artists!
+      </button>
       <div>
         {songSelected ? (
           <ul style={{ listStyleType: "none" }}>

@@ -292,11 +292,12 @@ export default function Generator() {
 
   return (
     <>
-      <h1>Generate a Playlist</h1>
+      <h3>Describe the Playlist to Generate</h3>
       <form key="request-form" onSubmit={handleRequestSubmit}>
         {/* number of songs */}
         <span>Find me </span>
         <input
+          className={styles.genInput}
           type="number"
           min="1"
           max="50"
@@ -307,11 +308,12 @@ export default function Generator() {
         {/* description of songs */}
         <span> songs that fit the feeling of </span>
         <input
+          className={styles.genInput}
           type="text"
           placeholder="Description of Songs"
           ref={reqDesireRef}
         />
-        <input type="submit" value="Generate" />
+        <input className={styles.genInput} type="submit" value="Generate" />
       </form>
       <br />
       {/* container for the list of songs that are found by the Spotify search */}
@@ -328,19 +330,20 @@ export default function Generator() {
       <span>
         Happy with the songs above?
         <br />
-        Choose a playlist name and description and confirm to add this playlist
-        to your Spotify account!
+        <h3>Name Your Playlist</h3>
       </span>
       {/* confirmation form */}
       <form key="confirmation-form" onSubmit={handleConfirmationSubmit}>
         {/* playlist name */}
         <input
+          className={styles.genInput}
           type="text"
           placeholder="New Playlist Name"
           ref={confirmationNameRef}
         />
         {/* playlist description */}
         <input
+          className={styles.genInput}
           type="text"
           placeholder="New Playlist Description"
           ref={confirmationDescRef}
@@ -348,7 +351,7 @@ export default function Generator() {
         {/* submit button to run the handleConfirmationSubmit function,
         which creates the new playlist in the user's Spotify account
         and adds the songs to the playlist */}
-        <input type="submit" value="Confirm" />
+        <input className={styles.genInput} type="submit" value="Confirm" />
       </form>
     </>
   );

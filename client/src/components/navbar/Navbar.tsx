@@ -6,23 +6,35 @@ export default function Navbar() {
   // navigation element containing React Router Links to the different pages of this application
   return (
     <nav className={styles.navbar}>
-      <span className={styles.navbarLink}>
-        <Link to="/">Home</Link>
+      <span className={styles.linkBox}>
+        <Link className={styles.link} to="/">
+          Home
+        </Link>
       </span>
-      <span className={styles.navbarLink}>
-        <Link to="/search">Search</Link>
+      <span className={styles.linkBox}>
+        <Link className={styles.link} to="/search">
+          Search
+        </Link>
       </span>
-      <span className={styles.navbarLink}>
-        <Link to="/wrapped">Wrapped</Link>
+      <span className={styles.linkBox}>
+        <Link className={styles.link} to="/wrapped">
+          Wrapped
+        </Link>
       </span>
-      <span className={styles.navbarLink}>
-        <Link to="/about">About</Link>
+      <span className={styles.linkBox}>
+        <Link className={styles.link} to="/about">
+          About
+        </Link>
       </span>
-      <span className={styles.navbarLink}>
-        <Link to="/login">Login</Link>
+      <span className={styles.linkBox}>
+        <Link className={styles.link} to="/login">
+          Login
+        </Link>
       </span>
-      <span className={styles.navbarLink}>
-        <Link to="/settings">Settings</Link>
+      <span className={styles.linkBox}>
+        <Link className={styles.link} to="/settings">
+          Settings
+        </Link>
       </span>
     </nav>
   );
