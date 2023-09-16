@@ -31,8 +31,8 @@ export default function SongCard({ song, removalFunc }: SongCardProps) {
           <Icon name="explicit-fill" />
         </div>
       )}
-      <div className={styles.deleteButton}>
-        <button onClick={removeSong}>
+      <div className={styles.deleteButtonContainer}>
+        <button className={styles.deleteButton} onClick={removeSong}>
           <Icon name="trash" />
         </button>
       </div>

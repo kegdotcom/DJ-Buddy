@@ -306,8 +306,8 @@ export default function Generator() {
 
   return (
     <div className={styles.generatorContainer}>
-      <h2>
-        Create a playlist by describing it:
+      <h2 className={styles.heading}>
+        Create a playlist by describing it {!spotifyToken && " - "}
         {!spotifyToken && <Link to="/login">Connect to Spotify to use!</Link>}
       </h2>
       <form
