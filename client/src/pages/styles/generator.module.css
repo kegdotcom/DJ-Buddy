@@ -1,0 +1,70 @@
+.generatorContainer {
+  background-color: rgb(9, 188, 138);
+  text-align: center;
+}
+
+.subheading {
+  margin: 1% 0;
+}
+
+.generatorForm {
+  display: block;
+  text-align: center;
+  font-size: 24px;
+  color: rgb(24, 24, 24);
+  margin: 0;
+  padding: 0;
+}
+
+.songGridContainer {
+  height: 50vh;
+  width: 80%;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.songGridContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.textInput {
+  display: inline-block;
+  box-sizing: border-box;
+  background-color: rgb(104, 110, 131);
+  color: inherit;
+  margin: 0 1%;
+  padding: 12px 20px;
+  border: 1px solid rgb(3, 29, 68);
+  border-radius: 5px;
+}
+
+.textInput::-webkit-input-placeholder {
+  color: rgba(3, 29, 68, 0.9);
+}
+
+.textInput:-ms-input-placeholder {
+  color: rgba(3, 29, 68, 0.9);
+}
+
+.textInput::placeholder {
+  color: rgba(3, 29, 68, 0.9);
+}
+
+.submitInput {
+  background-color: rgb(3, 29, 68);
+  color: rgb(104, 110, 131);
+  padding: 12px 20px;
+  margin: 1% 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submitInput:hover {
+  background-color: rgba(3, 29, 68, 0.9);
+}

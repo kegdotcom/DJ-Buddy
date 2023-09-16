@@ -1,12 +1,14 @@
 import React, { FormEvent, useRef, useState } from "react";
-import useSettings from "../../context/SettingsContext";
-import { Song, Playlist, SearchResult } from "../../SpotifyInterfaces";
-import SongPreview from "../song/SongPreview";
-import styles from "./generator.module.css";
+import { Link } from "react-router-dom";
+import useSettings from "../context/SettingsContext";
+import { Song, Playlist, SearchResult } from "../SpotifyInterfaces";
+import SongCard from "../components/song/SongCard";
+import styles from "./styles/generator.module.css";
 
 export default function Generator() {
   // load the user's settings from the settings context, Spotify access token from session storage, and OpenAI access token from environment variables
   const settings = useSettings();
+  const [loading, setLoading] = useState<boolean>(false);
   const spotifyToken = sessionStorage.getItem("spotify-access-token");
   const openAIToken = process.env.REACT_APP_OPENAI_API_KEY;
 
@@ -22,6 +24,8 @@ export default function Generator() {
   async function handleRequestSubmit(ev: FormEvent) {
     // stop the page from redirecting
     ev.preventDefault();
+
+    setLoading(true);
 
     // send a POST request to the OpenAI API to get songs that match the desired emotion
     const openAIResponse = await fetch(
@@ -136,6 +140,8 @@ export default function Generator() {
         return prev.concat(newSong);
       });
     }
+
+    setLoading(false);
   }
   // ---------- REQUEST FORM LOGIC ----------
 
@@ -290,69 +296,100 @@ export default function Generator() {
   }
   // ---------- CONFIRMATION FORM LOGIC ----------
 
+  function removeSong(uri: string) {
+    setSongList((prev) => {
+      return prev.filter((song) => {
+        return song.uri !== uri;
+      });
+    });
+  }
+
   return (
-    <>
-      <h3>Describe the Playlist to Generate</h3>
-      <form key="request-form" onSubmit={handleRequestSubmit}>
+    <div className={styles.generatorContainer}>
+      <h2>
+        Create a playlist by describing it:
+        {!spotifyToken && <Link to="/login">Connect to Spotify to use!</Link>}
+      </h2>
+      <form
+        className={styles.generatorForm}
+        key="request-form"
+        onSubmit={handleRequestSubmit}
+      >
         {/* number of songs */}
         <span>Find me </span>
         <input
-          className={styles.genInput}
+          className={styles.textInput}
           type="number"
           min="1"
           max="50"
           placeholder="Number of Songs"
           defaultValue={1}
           ref={reqNumRef}
+          disabled={loading}
         />
         {/* description of songs */}
         <span> songs that fit the feeling of </span>
         <input
-          className={styles.genInput}
+          className={styles.textInput}
           type="text"
           placeholder="Description of Songs"
           ref={reqDesireRef}
+          disabled={loading}
         />
-        <input className={styles.genInput} type="submit" value="Generate" />
+        <input
+          className={styles.submitInput}
+          type="submit"
+          value="Generate"
+          disabled={loading}
+        />
       </form>
-      <br />
       {/* container for the list of songs that are found by the Spotify search */}
-      <div className={styles.songListGroup}>
-        <ul className={styles.songList}>
-          {/* as Songs get added to the state array, they will populate this unordered list element
+      <h4 className={styles.subheading}>
+        Songs to be added to the playlist: {loading && "Loading..."}
+      </h4>
+      <div className={styles.songGridContainer}>
+        {/* as Songs get added to the state array, they will populate this unordered list element
           with SongPreview elements that show a visual representation of the songs the user will be adding to their playlist */}
-          {songList.map((song) => {
-            return <SongPreview song={song} />;
-          })}
-        </ul>
+        {songList.map((song) => {
+          return <SongCard song={song} removalFunc={removeSong} />;
+        })}
       </div>
-      <br />
-      <span>
-        Happy with the songs above?
-        <br />
-        <h3>Name Your Playlist</h3>
-      </span>
+      <h4 className={styles.subheading}>
+        Happy with the songs above? Name your new playlist!
+      </h4>
       {/* confirmation form */}
-      <form key="confirmation-form" onSubmit={handleConfirmationSubmit}>
+      <form
+        className={styles.generatorForm}
+        key="confirmation-form"
+        onSubmit={handleConfirmationSubmit}
+      >
         {/* playlist name */}
         <input
-          className={styles.genInput}
+          className={styles.textInput}
           type="text"
           placeholder="New Playlist Name"
           ref={confirmationNameRef}
+          disabled={loading}
         />
         {/* playlist description */}
         <input
-          className={styles.genInput}
+          className={styles.textInput}
           type="text"
           placeholder="New Playlist Description"
           ref={confirmationDescRef}
+          disabled={loading}
         />
+        <br />
         {/* submit button to run the handleConfirmationSubmit function,
         which creates the new playlist in the user's Spotify account
         and adds the songs to the playlist */}
-        <input className={styles.genInput} type="submit" value="Confirm" />
+        <input
+          className={styles.submitInput}
+          type="submit"
+          value="Confirm"
+          disabled={loading}
+        />
       </form>
-    </>
+    </div>
   );
 }
