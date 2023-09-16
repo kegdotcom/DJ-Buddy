@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./navbar.module.css";
+import Icon from "../Icon";
 
 export default function Navbar() {
   // navigation element containing React Router Links to the different pages of this application
@@ -12,8 +13,8 @@ export default function Navbar() {
         </Link>
       </span>
       <span className={styles.linkBox}>
-        <Link className={styles.link} to="/search">
-          Search
+        <Link className={styles.link} to="/generate">
+          Create
         </Link>
       </span>
       <span className={styles.linkBox}>

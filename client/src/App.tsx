@@ -7,7 +7,7 @@ import { SettingsProvider } from "./context/SettingsContext";
 // import the navigation bar and all pages that will be routed to
 import Navbar from "./components/navbar/Navbar";
 import Home from "./pages/Home";
-import Search from "./pages/Search";
+import Generator from "./pages/Generator";
 import Wrapped from "./pages/Wrapped";
 import About from "./pages/About";
 import Settings from "./pages/Settings";
@@ -21,7 +21,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/generate" element={<Generator />} />
           <Route path="/wrapped" element={<Wrapped />} />
           <Route path="/about" element={<About />} />
           <Route path="/settings" element={<Settings />} />
