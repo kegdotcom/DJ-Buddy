@@ -17,7 +17,7 @@ export default function ArtistPreview({ artist, index }: ArtistPreviewProps) {
   return (
     <li className={styles.artistItem}>
       <div className={styles.artist}>
-        <span className={styles.artistText}>{index}</span>
+        <span className={styles.artistText}>{index + 1}</span>
         <img
           className={styles.artistImage}
           src={artistImageURL}

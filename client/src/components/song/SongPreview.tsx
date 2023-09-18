@@ -37,7 +37,7 @@ export default function SongPreview({ song, index }: SongPreviewProps) {
   return (
     <li className={styles.songItem}>
       <div className={styles.song}>
-        <span className={styles.songText}>{index}</span>
+        <span className={styles.songText}>{index + 1}</span>
         <img className={styles.songImage} src={songImageURL} />
         <span className={styles.songText}>
           {songName} - {songArtistString}
