@@ -27,7 +27,7 @@ export default function SongCard({ song, removalFunc }: SongCardProps) {
   return (
     <div className={styles.songCard}>
       {explicit && (
-        <div className={styles.explicitIcon}>
+        <div title="Explicit" className={styles.explicitIcon}>
           <Icon name="explicit-fill" />
         </div>
       )}

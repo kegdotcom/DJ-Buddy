@@ -39,13 +39,13 @@ export default function SongPreview({ song, index }: SongPreviewProps) {
       <div className={styles.song}>
         <span className={styles.songText}>{index + 1}</span>
         <img className={styles.songImage} src={songImageURL} />
-        <span className={styles.songText}>
-          {songName} - {songArtistString}
-        </span>
-        <span className={styles.songIcon}>
+        <span title="Explicit" className={styles.songIcon}>
           {/* use the explicit icon if the song is explicit, and the square icon if not
           the square icon had the same outer box as the explicit icon, but without the 'E' */}
-          <Icon name={songExplicit ? "explicit" : "square"} />
+          {songExplicit && <Icon name="explicit" />}
+        </span>
+        <span className={styles.songText}>
+          {songName} - {songArtistString}
         </span>
       </div>
     </li>
