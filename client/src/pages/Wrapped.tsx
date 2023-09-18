@@ -80,14 +80,14 @@ export default function Wrapped() {
       <div className={styles.listContainer}>
         {songSelected ? (
           <ul className={styles.list}>
-            {songList.map((song) => {
-              return <SongPreview song={song} />;
+            {songList.map((song, index) => {
+              return <SongPreview song={song} index={index} />;
             })}
           </ul>
         ) : (
           <ul className={styles.list}>
-            {artistList.map((artist) => {
-              return <ArtistPreview artist={artist} />;
+            {artistList.map((artist, index) => {
+              return <ArtistPreview artist={artist} index={index} />;
             })}
           </ul>
         )}

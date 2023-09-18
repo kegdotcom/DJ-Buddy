@@ -6,6 +6,7 @@
 .song {
   display: flex;
   border: 1px solid rgb(9, 188, 138);
+  align-items: center;
   padding: 4px 8px;
   border-radius: 5px;
   margin-bottom: 5px;
@@ -19,15 +20,15 @@
   float: left;
   height: 50px;
   width: 50px;
+  margin: 0 10% 0 5%;
 }
 
-.songName {
+.songText {
   font-weight: bold;
-  margin: auto;
+  margin: 4px 16px;
 }
 
 .songIcon {
   float: right;
-  margin-top: auto;
-  margin-bottom: auto;
+  margin: 0 5px 0 5%;
 }

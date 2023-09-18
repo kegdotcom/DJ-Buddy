@@ -5,9 +5,10 @@ import styles from "./song.module.css";
 
 interface SongPreviewProps {
   song: Song;
+  index: number;
 }
 
-export default function SongPreview({ song }: SongPreviewProps) {
+export default function SongPreview({ song, index }: SongPreviewProps) {
   // get the Song's name
   const songName: string = song.name;
 
@@ -36,8 +37,9 @@ export default function SongPreview({ song }: SongPreviewProps) {
   return (
     <li className={styles.songItem}>
       <div className={styles.song}>
+        <span className={styles.songText}>{index}</span>
         <img className={styles.songImage} src={songImageURL} />
-        <span className={styles.songName}>
+        <span className={styles.songText}>
           {songName} - {songArtistString}
         </span>
         <span className={styles.songIcon}>

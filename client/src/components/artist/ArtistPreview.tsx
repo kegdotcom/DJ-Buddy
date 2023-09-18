@@ -4,9 +4,10 @@ import styles from "./artist.module.css";
 
 interface ArtistPreviewProps {
   artist: Artist;
+  index: number;
 }
 
-export default function ArtistPreview({ artist }: ArtistPreviewProps) {
+export default function ArtistPreview({ artist, index }: ArtistPreviewProps) {
   const artistName = artist.name;
 
   // get the url of the Artist's cover image, if available
@@ -16,6 +17,7 @@ export default function ArtistPreview({ artist }: ArtistPreviewProps) {
   return (
     <li className={styles.artistItem}>
       <div className={styles.artist}>
+        <span className={styles.artistText}>{index}</span>
         <img
           className={styles.artistImage}
           src={artistImageURL}
@@ -23,7 +25,7 @@ export default function ArtistPreview({ artist }: ArtistPreviewProps) {
           width={50}
           alt={artistName + " artist image"}
         />
-        <span className={styles.artistName}>{artistName}</span>
+        <span className={styles.artistText}>{artistName}</span>
       </div>
     </li>
   );

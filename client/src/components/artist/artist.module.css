@@ -5,6 +5,8 @@
 
 .artist {
   display: flex;
+  align-items: center;
+  justify-content: left;
   border: 1px solid rgb(9, 188, 138);
   padding: 4px 8px;
   border-radius: 5px;
@@ -19,9 +21,10 @@
   float: left;
   height: 50px;
   width: 50px;
+  margin: 0 10% 0 5%;
 }
 
-.artistName {
+.artistText {
   font-weight: bold;
-  margin: auto;
+  margin: 4px 16px;
 }
