@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Buffer } from "buffer";
+import styles from "./styles/general.module.css";
 
 export interface TokenData {
   accessToken: string;
@@ -46,5 +47,9 @@ export default function Connect() {
     getSpotifyToken();
   }, []);
 
-  return <h1>Connected!</h1>;
+  return (
+    <div className={styles.container}>
+      <h1>Connected!</h1>
+    </div>
+  );
 }

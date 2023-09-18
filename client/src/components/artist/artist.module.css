@@ -1,13 +1,18 @@
 .artistItem {
   margin: 5px;
   padding: 5px;
-  border: 1px solid #031d44;
-  color: #031d44;
 }
 
 .artist {
   display: flex;
+  border: 1px solid rgb(9, 188, 138);
+  padding: 4px 8px;
+  border-radius: 5px;
   margin-bottom: 5px;
+}
+
+.artist:hover {
+  background-color: rgba(9, 188, 138, 0.2);
 }
 
 .artistImage {

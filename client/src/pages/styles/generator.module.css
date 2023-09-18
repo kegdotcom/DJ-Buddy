@@ -81,3 +81,7 @@ h4.subheading {
 .submitInput:hover {
   background-color: rgba(9, 188, 138, 0.75);
 }
+
+a {
+  color: rgb(9, 188, 138);
+}

@@ -3,6 +3,7 @@ import { Song, SearchResult, Artist } from "../SpotifyInterfaces";
 import SongPreview from "../components/song/SongPreview";
 import ArtistPreview from "../components/artist/ArtistPreview";
 import { Link } from "react-router-dom";
+import styles from "./styles/wrapped.module.css";
 
 export default function Wrapped() {
   const [songList, setSongList] = useState<Song[]>([]);
@@ -65,39 +66,32 @@ export default function Wrapped() {
     setArtistList(topArtists);
   }
 
-  const buttonStyle = {
-    backgroundColor: "#031d44",
-    display: "inline-block",
-    color: "#72788d",
-    borderRadius: "5px",
-  };
-
   return (
-    <>
+    <div className={styles.container}>
       <h1>Wrapped</h1>
       {!spotifyToken && <Link to="/login">Connect To Spotify!</Link>}
       <h3>Find your top songs or artists from the last 6 months!</h3>
-      <button style={buttonStyle} onClick={getTopSongs}>
+      <button className={styles.wrappedButton} onClick={getTopSongs}>
         Show my top songs!
       </button>
-      <button style={buttonStyle} onClick={getTopArtists}>
+      <button className={styles.wrappedButton} onClick={getTopArtists}>
         Show my top artists!
       </button>
-      <div>
+      <div className={styles.listContainer}>
         {songSelected ? (
-          <ul style={{ listStyleType: "none" }}>
+          <ul className={styles.list}>
             {songList.map((song) => {
               return <SongPreview song={song} />;
             })}
           </ul>
         ) : (
-          <ul style={{ listStyleType: "none" }}>
+          <ul className={styles.list}>
             {artistList.map((artist) => {
               return <ArtistPreview artist={artist} />;
             })}
           </ul>
         )}
       </div>
-    </>
+    </div>
   );
 }

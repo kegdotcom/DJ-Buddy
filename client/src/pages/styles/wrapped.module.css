@@ -1,0 +1,31 @@
+.container {
+  margin: 0;
+  text-align: center;
+}
+
+.wrappedButton {
+  display: inline-block;
+  background-color: rgb(9, 188, 138);
+  margin: 8px 12px;
+  padding: 4px 8px;
+  border: 1px solid white;
+  border-radius: 5px;
+  color: white;
+}
+
+.wrappedButton:hover {
+  background-color: rgba(9, 188, 138, 0.75);
+}
+
+.listContainer {
+  margin: 0;
+  padding: 8px;
+}
+
+.list {
+  list-style-type: none;
+}
+
+a {
+  color: rgb(9, 188, 138);
+}

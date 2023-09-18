@@ -1,5 +1,6 @@
 import React from "react";
 import QueryString from "querystring";
+import styles from "./styles/general.module.css";
 
 export default function Login() {
   const clientID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
@@ -34,7 +35,7 @@ export default function Login() {
   const authorizationLink = `https://accounts.spotify.com/authorize?${authParams}`;
 
   return (
-    <>
+    <div className={styles.container}>
       <h1>Log In to Spotify</h1>
       <h3>
         <a href={authorizationLink}>Connect to Spotify</a>
@@ -43,6 +44,6 @@ export default function Login() {
         Having trouble using DJ Buddy? The Spotify connection only lasts for one
         hour, so maybe try to reconnect!
       </p>
-    </>
+    </div>
   );
 }

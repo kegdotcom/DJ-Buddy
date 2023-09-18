@@ -1,5 +1,6 @@
 import React from "react";
 import useSettings, { useUpdateSettings } from "../context/SettingsContext";
+import styles from "./styles/settings.module.css";
 
 export default function Settings() {
   const settings = useSettings();
@@ -9,13 +10,21 @@ export default function Settings() {
     updateSettings({ darkTheme: ev.target.value === "dark" ? true : false });
 
   return (
-    <>
+    <div className={styles.container}>
       <h1>Settings</h1>
-      <p>
-        current settings - Age: {settings.age} | Gender: {settings.gender} |
-        Temperature: {settings.temperature} | Theme:{" "}
-        {settings.darkTheme === true ? "Dark" : "Light"}
-      </p>
+      <span>
+        <br />
+        <u>Current Settings</u>
+        <br />
+        <br />
+        Age: {settings.age}
+        <br />
+        Gender: {settings.gender}
+        <br />
+        Temperature: {settings.temperature}
+        <br />
+        Theme: {settings.darkTheme === true ? "Dark" : "Light"}
+      </span>
       <h3>Modify Settings:</h3>
       <label
         className="settings settings-label"
@@ -111,6 +120,6 @@ export default function Settings() {
           Dark
         </label>
       </div>
-    </>
+    </div>
   );
 }
